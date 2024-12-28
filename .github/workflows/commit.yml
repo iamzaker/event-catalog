@@ -35,7 +35,7 @@ jobs:
       
       - name: Stage files in folder
         run: |
-          git add /openapi-files
+          git add openapi-files/
         
       - name: Commit changes
         run: |
