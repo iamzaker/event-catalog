@@ -37,6 +37,7 @@ jobs:
         run: |
           git fetch origin gh-pages
           git checkout -B gh-pages origin/gh-pages
+          git pull origin gh-pages
       
       - name: Stage files in folder
         run: |
