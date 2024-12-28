@@ -1,0 +1,25 @@
+{
+  "name": "event-catalog",
+  "version": "1.0.0",
+  "description": "Event catalog",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "eventcatalog dev",
+    "build": "eventcatalog build",
+    "start": "eventcatalog start",
+    "preview": "eventcatalog preview",
+    "generate-catalog": "node generate-catalog.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@eventcatalog/core": "^2.18.5",
+    "@eventcatalog/generator-openapi": "^3.0.1",
+    "node-fetch": "^3.3.2"
+  },
+  "devDependencies": {
+    "dotenv": "^16.4.7"
+  }
+}
