@@ -47,7 +47,14 @@ async function fetchFileFromGitHub({repository, branch, id, fileName}) {
         const { services } = asyncApiGenerator[1];
         const targetPath = path.join(__dirname, 'openapi-files');
         console.log(`printing targetPath: ${targetPath}`);
-        if (!fs.existsSync(targetPath)) { fs.mkdirSync(targetPath, { recursive: true })} else { console.log('Directory exists') };
+        if (!fs.existsSync(targetPath)) { 
+            console.log('Directory does not exist, creating it');
+            fs.mkdirSync(targetPath, { recursive: true })
+            if (!fs.existsSync(targetPath)) {
+                console.error('Failed to create directory');
+                return;
+            } else { console.log('Directory created') }
+        } else { console.log('Directory exists') };
         for(const service of services) {
             const { repository, mainBranch: branch, asyncApiFileName, path: outputPath, id } = service;
             // if (!fs.existsSync(targetPath)) fs.mkdirSync(targetPath, { recursive: true });
