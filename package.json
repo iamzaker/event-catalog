@@ -10,13 +10,16 @@
     "build": "eventcatalog build",
     "start": "eventcatalog start",
     "preview": "eventcatalog preview",
-    "generate-catalog": "node generate-catalog.js"
+    "generate-catalog": "node generate-catalog.js",
+    "generate": "DEBUG=* eventcatalog generate"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@eventcatalog/core": "^2.18.5",
     "@eventcatalog/generator-openapi": "^3.0.1",
+    "@stoplight/markdown-viewer": "^5.7.1",
+    "@stoplight/mosaic-code-viewer": "^1.53.4",
     "node-fetch": "^3.3.2"
   },
   "devDependencies": {

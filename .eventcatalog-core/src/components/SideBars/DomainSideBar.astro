@@ -1,0 +1,101 @@
+---
+import OwnersList from '@components/Lists/OwnersList';
+import PillListFlat from '@components/Lists/PillListFlat';
+import RepositoryList from '@components/Lists/RepositoryList.astro';
+import VersionList from '@components/Lists/VersionList.astro';
+import { getUbiquitousLanguage } from '@utils/collections/domains';
+import { buildUrl } from '@utils/url-builder';
+import { getEntry, type CollectionEntry } from 'astro:content';
+import { ScrollText, Workflow } from 'lucide-react';
+interface Props {
+  domain: CollectionEntry<'domains'>;
+}
+
+const { domain } = Astro.props;
+
+// @ts-ignore
+const services = (domain.data.services as CollectionEntry<'services'>[]) || [];
+const ubiquitousLanguage = await getUbiquitousLanguage(domain);
+const hasUbiquitousLanguage = ubiquitousLanguage.length > 0;
+const ubiquitousLanguageDictionary = hasUbiquitousLanguage ? ubiquitousLanguage[0].data.dictionary : [];
+
+const ownersRaw = domain.data?.owners || [];
+const owners = await Promise.all(ownersRaw.map((o) => getEntry(o)));
+const filteredOwners = owners.filter((o) => o !== undefined);
+
+const serviceList = services.map((p) => ({
+  label: p.data.name,
+  badge: p.collection,
+  tag: `v${p.data.version}`,
+  collection: p.collection,
+  href: buildUrl(`/docs/${p.collection}/${p.data.id}/${p.data.version}`),
+}));
+
+const ubiquitousLanguageList = ubiquitousLanguageDictionary?.map((l) => ({
+  label: l.name,
+  badge: 'Ubiquitous Language',
+  collection: 'ubiquitousLanguages',
+  href: buildUrl(`/docs/${domain.collection}/${domain.data.id}/language?id=${l.id}`),
+}));
+
+const ownersList = filteredOwners.map((o) => ({
+  label: o.data.name,
+  type: o.collection,
+  badge: o.collection === 'users' ? o.data.role : 'Team',
+  avatarUrl: o.collection === 'users' ? o.data.avatarUrl : '',
+  href: buildUrl(`/docs/${o.collection}/${o.data.id}`),
+}));
+---
+
+<aside class="sticky top-28 left-0 space-y-8 h-full overflow-y-auto py-4">
+  <div>
+    <PillListFlat
+      title={`Services (${services.length})`}
+      pills={serviceList}
+      emptyMessage={`This domain does not contain any services.`}
+      color="pink"
+      icon="ServerIcon"
+      client:load
+    />
+    {
+      ubiquitousLanguageList && hasUbiquitousLanguage && (
+        <PillListFlat
+          title={`Ubiquitous Language Dictionary (${ubiquitousLanguageDictionary?.length})`}
+          pills={ubiquitousLanguageList}
+          color="pink"
+          emptyMessage={`This domain does not have any documented ubiquitous language.`}
+          client:load
+        />
+      )
+    }
+    {domain.data.versions && <VersionList versions={domain.data.versions} collectionItem={domain} />}
+    {
+      domain.data.repository && (
+        <RepositoryList repository={domain.data.repository?.url} language={domain.data.repository?.language} />
+      )
+    }
+    <OwnersList
+      title={`Domain owners (${ownersList.length})`}
+      owners={ownersList}
+      emptyMessage={`This domain does not have any documented owners.`}
+      client:load
+    />
+
+    <div class="space-y-2">
+      <a
+        href={buildUrl(`/visualiser/${domain.collection}/${domain.data.id}/${domain.data.version}`)}
+        class="flex items-center justify-center space-x-2 text-center rounded-md w-full bg-white px-3.5 py-2.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-100/60 hover:text-primary"
+      >
+        <Workflow strokeWidth={2} size={16} />
+        <span class="block">View in visualiser</span>
+      </a>
+      <a
+        href={buildUrl(`/docs/${domain.collection}/${domain.data.id}/${domain.data.latestVersion}/changelog`)}
+        class="flex items-center space-x-2 justify-center text-center rounded-md w-full bg-white px-3.5 py-2.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-100/60 hover:text-primary"
+      >
+        <ScrollText strokeWidth={2} size={16} />
+        <span class="block">Read changelog</span>
+      </a>
+    </div>
+  </div>
+</aside>

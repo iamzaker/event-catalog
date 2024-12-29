@@ -45,7 +45,7 @@ async function fetchFileFromGitHub({repository, branch, id, fileName}) {
             return;
         }
         const { services } = asyncApiGenerator[1];
-        const targetPath = path.join(__dirname, 'openapi-files');
+        const targetPath = path.join(__dirname, 'asyncapi-files');
         console.log(`printing targetPath: ${targetPath}`);
         if (!fs.existsSync(targetPath)) { 
             console.log('Directory does not exist, creating it');

@@ -1,0 +1,29 @@
+openapi: 3.0.0
+paths:
+  /:
+    get:
+      operationId: AppController_getHello
+      parameters: []
+      responses:
+        "200":
+          description: ""
+      tags:
+        - App
+  /customers:
+    get:
+      operationId: CustomersController_get
+      parameters: []
+      responses:
+        "200":
+          description: ""
+      tags:
+        - Customers
+info:
+  title: API Documentation
+  description: Generated OpenAPI spec
+  version: "1.0"
+  contact: {}
+tags: []
+servers: []
+components:
+  schemas: {}

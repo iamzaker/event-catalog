@@ -1,0 +1,37 @@
+---
+import DiscoverLayout from '@layouts/DiscoverLayout.astro';
+import type { PageTypes } from '@types';
+import { getFlows } from '@utils/collections/flows';
+
+import { pageDataLoader } from '@utils/page-loaders/page-data-loader';
+type PageTypesWithFlows = PageTypes | 'flows';
+
+export async function getStaticPaths() {
+  const loaders = {
+    ...pageDataLoader,
+    flows: getFlows,
+  };
+
+  const itemTypes: PageTypesWithFlows[] = ['events', 'commands', 'queries', 'services', 'domains', 'flows', 'channels'];
+  const allItems = await Promise.all(itemTypes.map((type) => loaders[type]()));
+
+  return allItems.flatMap((items, index) => ({
+    params: {
+      type: itemTypes[index],
+    },
+    props: {
+      data: items,
+      type: itemTypes[index],
+    },
+  }));
+}
+
+const { type, data } = Astro.props;
+---
+
+<DiscoverLayout
+  title={`${type} (${data.length})`}
+  subtitle={`Find, filter and search for any ${type} in your system.`}
+  data={data}
+  type={type}
+/>

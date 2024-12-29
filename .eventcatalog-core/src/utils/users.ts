@@ -1,0 +1,76 @@
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import path from 'path';
+
+export type User = CollectionEntry<'users'>;
+
+export const getUsers = async (): Promise<User[]> => {
+  // Get services that are not versioned
+  const users = await getCollection('users', (user) => {
+    return user.data.hidden !== true;
+  });
+
+  // What do they own?
+  const domains = await getCollection('domains');
+
+  // What do they own?
+  const services = await getCollection('services');
+
+  // What do they own?
+  const events = await getCollection('events');
+
+  // What do they own?
+  const commands = await getCollection('commands');
+
+  const teams = await getCollection('teams', (team) => {
+    return team.data.hidden !== true;
+  });
+
+  const mappedUsers = users.map((user) => {
+    const associatedTeams = teams.filter((team) => {
+      return team.data.members?.some((member) => member.id === user.data.id);
+    });
+
+    const ownedDomains = domains.filter((domain) => {
+      return domain.data.owners?.find((owner) => owner.id === user.data.id);
+    });
+
+    const isOwnedByUserOrAssociatedTeam = () => {
+      const associatedTeamsSlug: string[] = associatedTeams.map((team) => team.id);
+
+      return ({ data }: { data: { owners?: Array<{ slug: string }> } }) => {
+        return data.owners?.some((owner) => owner.slug === user.data.id || associatedTeamsSlug.includes(owner.slug));
+      };
+    };
+
+    const ownedServices = services.filter(() => isOwnedByUserOrAssociatedTeam());
+
+    const ownedEvents = events.filter(() => isOwnedByUserOrAssociatedTeam());
+
+    const ownedCommands = commands.filter(() => isOwnedByUserOrAssociatedTeam());
+
+    return {
+      ...user,
+      data: {
+        ...user.data,
+        ownedDomains,
+        ownedServices,
+        ownedEvents,
+        ownedCommands,
+        associatedTeams,
+      },
+      catalog: {
+        path: path.join(user.collection, user.id.replace('/index.mdx', '')),
+        filePath: path.join(process.cwd(), 'src', 'catalog-files', user.collection, user.id.replace('/index.mdx', '')),
+        type: 'user',
+      },
+    };
+  });
+
+  // order them by the name of the user
+  mappedUsers.sort((a, b) => {
+    return (a.data.name || a.data.id).localeCompare(b.data.name || b.data.id);
+  });
+
+  return mappedUsers;
+};
