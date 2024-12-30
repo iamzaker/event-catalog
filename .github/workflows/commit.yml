@@ -69,7 +69,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: node_modules
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock', '**/package.json') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
             
@@ -80,9 +80,21 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
+
+      - name: Verify Installed Scripts
+        run: cat node_modules/.bin/yarn-run.json
+
+      
+      - name: List Yarn Scripts
+        run: |
+            yarn run
+        
+      - name: List npm Scripts
+        run: |
+            npm run
       
       - name: Install dependencies
-        run: yarn install --force --frozen-lockfile    
+        run: yarn install --force --frozen-lockfile --verbose
 
       - name: Configure Git
         run: |
@@ -100,15 +112,6 @@ jobs:
           pwd
           ls -la
           tree || echo "Tree command not available"
-
-      - name: List Yarn Scripts
-        run: |
-            yarn run
-        
-      
-      - name: List npm Scripts
-        run: |
-            npm run
         
       - name: Generate Catalog
         run: |
