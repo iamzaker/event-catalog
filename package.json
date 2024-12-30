@@ -10,8 +10,8 @@
     "build": "eventcatalog build",
     "start": "eventcatalog start",
     "preview": "eventcatalog preview",
-    "generate-catalog": "node generate-catalog.js",
-    "generate": "DEBUG=* eventcatalog generate"
+    "generate": "node generate-catalog.js",
+    "generate-catalog": "eventcatalog generate"
   },
   "author": "",
   "license": "ISC",

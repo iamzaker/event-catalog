@@ -23,13 +23,13 @@ jobs:
           cache: 'yarn'
           cache-dependency-path: './yarn.lock'
 
-      - name: Cache node_modules
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
+      # - name: Cache node_modules
+      #   uses: actions/cache@v3
+      #   with:
+      #     path: node_modules
+      #     key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-yarn-
 
       - name: Install dependencies
         run: |
@@ -45,8 +45,8 @@ jobs:
           git fetch origin gh-pages
           git checkout -B gh-pages origin/gh-pages
           git pull origin gh-pages
-          yarn generate-catalog
           yarn generate
+          yarn generate-catalog
       
       - name: Stage files in folder
         run: |
