@@ -80,8 +80,8 @@ jobs:
         
       - name: Generate Catalog
         run: |
-          yarn run download-openapi
-          # npm run generate-catalog
+          # yarn run download-openapi
+          npm run generate-catalog
       
       - name: Stage files in folder
         run: |
