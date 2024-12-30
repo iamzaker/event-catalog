@@ -43,8 +43,11 @@ jobs:
       - name: Switch to gh-pages branch
         run: |
           git fetch origin gh-pages
-          git checkout -B gh-pages origin/gh-pages
+          git checkout gh-pages
           git pull origin gh-pages
+        
+      - name: Generate Catalog
+        run: |
           yarn run generate-api
           yarn run generate-catalog
       
