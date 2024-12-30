@@ -39,7 +39,7 @@ async function fetchFileFromGitHub({repository, branch, id, fileName}) {
 (async () => {
     try {
         const { generators } = eventCatalogConfig;
-        const asyncApiGenerator = generators.find(([name]) => name === '@eventcatalog/generator-asyncapi');
+        const asyncApiGenerator = generators.find(([name]) => name === '@eventcatalog/generator-openapi');
         if(!asyncApiGenerator) {
             console.error('No asyncapi generator found in eventcatalog.config.js');
             return;

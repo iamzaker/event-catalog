@@ -5,7 +5,6 @@ const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 
 /** @type {import('@eventcatalog/core/bin/eventcatalog.config').Config} */
 export default {
-  cId: '029abcc9-8bea-4315-a41d-a5faaa2c68dc',
   title: 'OurLogix',
   tagline: 'A comprehensive logistics and shipping management company',
   organizationName: 'OurLogix',
