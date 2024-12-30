@@ -112,7 +112,7 @@ jobs:
         
       - name: Generate Catalog
         run: |
-          yarn run download-openapi
+          yarn run generate-catalog
       
       - name: Stage files in folder
         run: |
