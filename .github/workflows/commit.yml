@@ -45,8 +45,8 @@ jobs:
           git fetch origin gh-pages
           git checkout -B gh-pages origin/gh-pages
           git pull origin gh-pages
-          yarn generate
-          yarn generate-catalog
+          yarn run generate-api
+          yarn run generate-catalog
       
       - name: Stage files in folder
         run: |

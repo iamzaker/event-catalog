@@ -10,7 +10,7 @@
     "build": "eventcatalog build",
     "start": "eventcatalog start",
     "preview": "eventcatalog preview",
-    "generate": "node generate-catalog.js",
+    "generate-api": "node generate-catalog.js",
     "generate-catalog": "eventcatalog generate"
   },
   "author": "",
