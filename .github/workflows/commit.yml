@@ -20,7 +20,9 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          # cache: 'npm'
+          cache: 'yarn'
+      - name: Install Specific Yarn Version
+        run: npm install -g yarn@1.22.22
           # cache-dependency-path: './package-lock.json'
 
       # - name: Cache node_modules
@@ -30,10 +32,11 @@ jobs:
       #     key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
       #     restore-keys: |
       #       ${{ runner.os }}-yarn-
+      - name: Clear Yarn Cache
+        run: yarn cache clean      
 
       - name: Install dependencies
-        run: |
-          yarn install    
+        run: yarn install --frozen-lockfile    
 
       - name: Configure Git
         run: |
