@@ -74,9 +74,14 @@ jobs:
         run: |
             yarn run
         
+      
+      - name: List npm Scripts
+        run: |
+            npm run
+        
       - name: Generate Catalog
         run: |
-          npm run generate-api
+          yarn run generate-api
           # npm run generate-catalog
       
       - name: Stage files in folder
