@@ -38,10 +38,14 @@ jobs:
           git checkout -B gh-pages origin/gh-pages
           git pull origin gh-pages
           npm run generate-catalog
+          npm run generate
       
       - name: Stage files in folder
         run: |
           git add openapi-files/
+          git add domains/
+          git add queries/
+          git add services/
         
       - name: Commit changes
         run: |
