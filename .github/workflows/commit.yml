@@ -51,11 +51,15 @@ jobs:
           pwd
           ls -la
           tree || echo "Tree command not available"
+
+      - name: List Yarn Scripts
+        run: |
+            yarn run
         
       - name: Generate Catalog
         run: |
           npm run generate-api
-          npm run generate-catalog
+          # npm run generate-catalog
       
       - name: Stage files in folder
         run: |
