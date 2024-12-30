@@ -33,7 +33,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          yarn install          
+          yarn install --frozen-lockfile         
 
       - name: Configure Git
         run: |
@@ -45,6 +45,12 @@ jobs:
           git fetch origin gh-pages
           git checkout gh-pages
           git pull origin gh-pages
+
+      - name: Print Current Directory Structure
+        run: |
+          pwd
+          ls -la
+          tree || echo "Tree command not available"
         
       - name: Generate Catalog
         run: |
