@@ -33,7 +33,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          yarn install --frozen-lockfile         
+          npm install       
 
       - name: Configure Git
         run: |
@@ -54,8 +54,8 @@ jobs:
         
       - name: Generate Catalog
         run: |
-          yarn run generate-api
-          yarn run generate-catalog
+          npm run generate-api
+          npm run generate-catalog
       
       - name: Stage files in folder
         run: |
