@@ -21,7 +21,7 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
-          cache-dependency-path: './yarn.lock'
+          cache-dependency-path: './package-lock'
 
       # - name: Cache node_modules
       #   uses: actions/cache@v3
